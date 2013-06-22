@@ -14,7 +14,7 @@ $route['novosti/pagenumber'] = "novosti/pagenum";
 
 /* Forum */
 $route['forum/(:num)/(:any)'] = "forum/category";
-$route['forum/dadajnovi'] = "forum/addnew";
+$route['forum/addnew'] = "forum/addnew";
 $route['forum/(:num)/(:any)/(:num)/(:any)'] = "forum/post";
 
 /* Calendar */

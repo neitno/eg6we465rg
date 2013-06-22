@@ -41,7 +41,7 @@ class ForumModel extends CI_Model {
 		$this->db->select('forumtheme.*, users.image, users.forumResponse, users.fullName');
 		$this->db->from('forumtheme');
 		$this->db->join('users', 'forumtheme.authorId = users.id');
-		$this->db->where('forumtheme.id', $id);
+		$this->db->where('forumtheme.forumId', $id);
 		$query = $this->db->get();
 		if($query->num_rows() > 0)
 			return $query->row();
@@ -74,14 +74,22 @@ class ForumModel extends CI_Model {
 	function insertPost($data)
 	{
 		$themeId = $data['themeId'];
-		unset($data['themeId']);
+		$forumThemeId = $data['forumThemeId'];
+		unset($data['themeId'], $data['forumThemeId']);
 		$this->db->insert('forumposts', $data); 
 		$userId = $data['authorId'];
 		$date = $data['date'];
 		
-		$this->db->query("UPDATE forumtheme SET lastResponse = (SELECT fullName FROM users WHERE id = '{$userId}') WHERE id='{$themeId}'");
+		$this->db->query("UPDATE forumtheme SET lastResponse = (SELECT fullName FROM users WHERE id = '{$userId}') WHERE id='{$forumThemeId}'");
 		$this->db->query("UPDATE users SET forumResponse = (forumResponse+1) WHERE id='{$userId}'");
-		$this->db->query("UPDATE forumtheme SET numberResponse = (numberResponse+1), lastTime = '{$date}'  WHERE id='{$themeId}'");
+		$this->db->query("UPDATE forumtheme SET numberResponse = (numberResponse+1), lastTime = '{$date}'  WHERE id='{$forumThemeId}'");
+		
+
+		
 		//, lastResponse = '{$userId}'
+	}
+	function newTheme($data)
+	{
+		$this->db->insert('forumtheme', $data);
 	}
 }

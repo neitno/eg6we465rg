@@ -67,24 +67,31 @@
     <h3 id="myModalLabel">Dodaj novi</h3>
   </div>
   <div class="modal-body">
-    <form action="/forum/addnew" method="post">
+    <form action="/forum/addnew" method="post" id="addnew">
     	<label>Unesite Naslov</label>
-        <input class="input-block-level" type="text" placeholder="Naslov">
+        <input class="input-block-level" type="text" name="theme" placeholder="Naslov"/>
         <label>Kategorija</label>
-        <select class="input-block-level">
-        		<?php foreach($category as $row):?>
-                	<option><?php echo $row->name;?></option>
-                <?php endforeach;?>
-              </select>
+        <select class="input-block-level" name="forumId">
+			<?php foreach($category as $row):?>
+                <option value="<?php echo $row->id .','.$row->url;?>"><?php echo $row->name;?></option>
+            <?php endforeach;?>
+          </select>
         <label>Sadržaj</label>
-        <textarea class="input-block-level" rows="5" placeholder="Naslov"></textarea>
+        <textarea class="input-block-level" rows="5" placeholder="Naslov" name="content"></textarea>
     </form>
   </div>
   <div class="modal-footer">
     <button class="btn" data-dismiss="modal" aria-hidden="true">Odustani</button>
-    <button class="btn btn-primary">Spremi</button>
+    <button class="btn btn-primary" id="update">Spremi</button>
   </div>
 </div>
 <!-- Forum New -->
+<script>
+$(function(){
+	$('#update').click(function(){
+		$('#addnew').submit();
+	});
+});
+</script>
 <?php endif;?>
 <?php $this->load->view('layout/footer');?>

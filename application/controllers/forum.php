@@ -66,4 +66,27 @@ class Forum extends CI_Controller {
 		
 		$this->load->view('forum/forumPost/index', $data);
 	}
+	
+	public function addnew()
+	{
+	 	$a = explode(',', $_POST['forumId']);
+		$_POST['forumId'] = $a[0];
+		$_POST['forumurl'] = $a[1];
+		$_POST['authorId'] = $this->session->userdata('id');
+		$_POST['date'] = date('Y-m-d G:i:s');
+		$_POST['numberResponse'] = 0;
+		
+		//url
+		$url = substr($_POST['theme'],0,400);
+		$url = str_replace(" ", "-", $url); // replace spaces by "-"
+		$url = str_replace("č", "c", $url); // replace special chars
+		$url = str_replace("ć", "c", $url); // replace special chars
+		$url = str_replace("š", "s", $url); // replace special chars
+		$url = str_replace("ž", "z", $url); // replace special chars
+		$url = str_replace("đ", "d", $url); // replace special chars
+		$url = strtolower(trim($url)); // lowercase
+		$url = preg_replace("/([^a-zA-Z0-9_-])/",'',$url); // only keep  standard latin letters and numbers, hyphens and dashes
+		$_POST['url'] = $url;
+		$this->ForumModel->newTheme($_POST);
+	}
 }

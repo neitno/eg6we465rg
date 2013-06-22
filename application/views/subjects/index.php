@@ -8,7 +8,10 @@
 	else
 		$this->load->view('layout/header');
 ?>
-<?php $this->load->view('layout/footer');?>
+<!-- Header Image -->
+	<div class="HeaderImage">
+		<img src="/assets/img/ForumHeader.png" />
+	</div>
+<!-- Header Image -->
 
-<div>
-</div>
+<?php $this->load->view('layout/footer');?>
